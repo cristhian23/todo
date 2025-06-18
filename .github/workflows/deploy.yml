@@ -27,4 +27,4 @@ jobs:
         context: .
         file: ./todoapi/Dockerfile
         push: true
-        tags: cristhian23/todo:latest
+        tags: cristhian23/todoapi:latest
