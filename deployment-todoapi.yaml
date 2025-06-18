@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todoapi
+  template:
+    metadata:
+      labels:
+        app: todoapi
+    spec:
+      containers:
+        - name: todoapi
+          image: cristhian23/todoapi:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ConnectionStrings__DefaultConnection
+              value: Server=sqlserver;Database=todo;User Id=sa;Password=Your_strong_Passw0rd!;TrustServerCertificate=True;

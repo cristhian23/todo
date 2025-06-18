@@ -1,0 +1,34 @@
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Your_strong_Passw0rd!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - app-network
+
+  todoapi:
+    build: .
+    container_name: todoapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=todo;User Id=sa;Password=Your_strong_Passw0rd!;TrustServerCertificate=True;
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+    networks:
+      - app-network
+      
+volumes:
+  sql_data:
+networks:
+  app-network:
+    driver: bridge
